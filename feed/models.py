@@ -3,17 +3,17 @@ from django.db import models
 import newspaper
 
 class Article(models.Model):
-    url = models.TextField()
-    title = models.TextField()
-    text = models.TextField()
+    url = models.TextField(null=True)
+    title = models.TextField(null=True)
+    text = models.TextField(null=True)
 
     @classmethod
     def ready(cls):
-        return cls.objects.exclude(title='')
+        return cls.objects.filter(title__isnull=False)
 
     @classmethod
     def pending(cls):
-        return cls.objects.filter(title='')
+        return cls.objects.filter(title__isnull=True)
 
     @classmethod
     def fetch_pending(cls):
@@ -21,10 +21,10 @@ class Article(models.Model):
             a.fetch()
 
     def __str__(self):
-        if self.title == '':
-            return self.url
-        else:
+        if self.title:
             return self.title
+        else:
+            return self.url
 
     def fetch(self):
         a = newspaper.Article(self.url, keep_article_html=True)
