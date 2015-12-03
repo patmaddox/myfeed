@@ -20,6 +20,12 @@ class Article(models.Model):
         for a in cls.pending():
             a.fetch()
 
+    def __str__(self):
+        if self.title == '':
+            return self.url
+        else:
+            return self.title
+
     def fetch(self):
         a = newspaper.Article(self.url, keep_article_html=True)
         a.download()
