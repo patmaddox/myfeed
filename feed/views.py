@@ -20,3 +20,11 @@ def index(request):
         )
 
     return HttpResponse(feed.writeString('utf-8'))
+
+def add(request):
+    url = request.POST['url']
+    if url:
+        a = Article(url=url)
+        a.save()
+        a.fetch()
+    return HttpResponse('OK')
