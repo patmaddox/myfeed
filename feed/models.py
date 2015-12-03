@@ -7,6 +7,19 @@ class Article(models.Model):
     title = models.TextField()
     text = models.TextField()
 
+    @classmethod
+    def ready(cls):
+        return cls.objects.exclude(title='')
+
+    @classmethod
+    def pending(cls):
+        return cls.objects.filter(title='')
+
+    @classmethod
+    def fetch_pending(cls):
+        for a in cls.pending():
+            a.fetch()
+
     def fetch(self):
         a = newspaper.Article(self.url, keep_article_html=True)
         a.download()
