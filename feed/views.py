@@ -3,7 +3,6 @@ from django.utils import feedgenerator
 from models import Article
 
 def index(request):
-    # articles = Article.objects.all()
     context = {}
     feed = feedgenerator.Rss201rev2Feed(
         title = u"Pat's feed",
