@@ -21,12 +21,3 @@ def index(request):
         )
 
     return HttpResponse(feed.writeString('utf-8'))
-
-def add(request):
-    response = HttpResponse('OK')
-    url = request.POST['url']
-
-    if url:
-        Article.fetch(url)
-
-    return response
