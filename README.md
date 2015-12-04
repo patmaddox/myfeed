@@ -2,5 +2,4 @@
 
 ## TODO
 
-* Check for duplicates
 * Handle errors

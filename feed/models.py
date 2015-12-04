@@ -22,6 +22,10 @@ class Article(models.Model):
         for a in cls.pending():
             a.fetch()
 
+    @classmethod
+    def with_url(cls, url):
+        return cls.objects.filter(url = url).count() > 0
+
     def __str__(self):
         if self.title:
             return self.title

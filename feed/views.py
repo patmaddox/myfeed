@@ -22,9 +22,11 @@ def index(request):
     return HttpResponse(feed.writeString('utf-8'))
 
 def add(request):
+    response = HttpResponse('OK')
     url = request.POST['url']
-    if url:
+
+    if url and not Article.with_url(url):
         a = Article(url=url)
-        a.save()
         a.fetch()
-    return HttpResponse('OK')
+
+    return response
