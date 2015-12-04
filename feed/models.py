@@ -4,6 +4,14 @@ import newspaper
 from django.utils import timezone
 import feedparser
 
+class Token(models.Model):
+    token = models.TextField()
+
+    @classmethod
+    def valid(cls, token):
+        return cls.objects.filter(token = token).count() > 0
+
+
 class ExternalFeed(models.Model):
     url = models.TextField()
 
