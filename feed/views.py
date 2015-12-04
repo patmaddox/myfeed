@@ -15,7 +15,8 @@ def index(request):
         feed.add_item(
             title=article.title,
             link=article.url,
-            description=article.text
+            description=article.text,
+            updateddate=article.fetched_at
         )
 
     return HttpResponse(feed.writeString('utf-8'))

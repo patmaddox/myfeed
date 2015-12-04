@@ -1,15 +1,17 @@
 from __future__ import unicode_literals
 from django.db import models
 import newspaper
+from django.utils import timezone
 
 class Article(models.Model):
     url = models.TextField(null=True)
     title = models.TextField(null=True)
     text = models.TextField(null=True)
+    fetched_at = models.DateTimeField(null=True)
 
     @classmethod
     def ready(cls):
-        return cls.objects.filter(title__isnull=False)
+        return cls.objects.filter(title__isnull=False).order_by('-fetched_at')
 
     @classmethod
     def pending(cls):
@@ -32,4 +34,5 @@ class Article(models.Model):
         a.parse()
         self.title = a.title
         self.text  = a.article_html
+        self.fetched_at = timezone.now()
         self.save()
