@@ -7,6 +7,12 @@ import feedparser
 class ExternalFeed(models.Model):
     url = models.TextField()
 
+    @classmethod
+    def refresh_all(cls):
+        for f in cls.objects.all():
+            f.refresh()
+
+
     def refresh(self):
         feed = feedparser.parse(self.url)
         for entry in feed.entries:
