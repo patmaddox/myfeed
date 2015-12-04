@@ -11,7 +11,7 @@ def index(request):
         language = u"en",
     )
 
-    for article in Article.objects.all():
+    for article in Article.ready():
         feed.add_item(
             title=article.title,
             link=article.url,
