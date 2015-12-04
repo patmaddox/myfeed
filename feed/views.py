@@ -16,7 +16,8 @@ def index(request):
             title=article.title,
             link=article.url,
             description=article.text,
-            updateddate=article.fetched_at
+            updateddate=article.fetched_at,
+            id=article.url,
         )
 
     return HttpResponse(feed.writeString('utf-8'))
