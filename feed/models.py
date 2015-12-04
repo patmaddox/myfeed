@@ -18,13 +18,24 @@ class Article(models.Model):
         return cls.objects.filter(title__isnull=True)
 
     @classmethod
-    def fetch_pending(cls):
+    def refresh_pending(cls):
         for a in cls.pending():
-            a.fetch()
+            a.refresh()
 
     @classmethod
     def with_url(cls, url):
         return cls.objects.filter(url = url).count() > 0
+
+    @classmethod
+    def fetch(cls, url):
+        articles = cls.objects.filter(url = url)
+
+        if articles.count() > 0:
+            return articles[0]
+        else:
+            a = cls(url = url)
+            a.refresh()
+            return a
 
     def __str__(self):
         if self.title:
@@ -32,7 +43,7 @@ class Article(models.Model):
         else:
             return self.url
 
-    def fetch(self):
+    def refresh(self):
         a = newspaper.Article(self.url, keep_article_html=True)
         a.download()
         a.parse()

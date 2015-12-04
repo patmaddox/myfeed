@@ -25,8 +25,7 @@ def add(request):
     response = HttpResponse('OK')
     url = request.POST['url']
 
-    if url and not Article.with_url(url):
-        a = Article(url=url)
-        a.fetch()
+    if url:
+        Article.fetch(url)
 
     return response
