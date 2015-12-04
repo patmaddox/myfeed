@@ -2,6 +2,15 @@ from __future__ import unicode_literals
 from django.db import models
 import newspaper
 from django.utils import timezone
+import feedparser
+
+class ExternalFeed(models.Model):
+    url = models.TextField()
+
+    def refresh(self):
+        feed = feedparser.parse(self.url)
+        for entry in feed.entries:
+            Article.fetch(entry.link)
 
 class Article(models.Model):
     url = models.TextField(null=True)
